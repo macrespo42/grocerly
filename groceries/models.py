@@ -6,7 +6,7 @@ from django.db.models.fields.related import ForeignKey
 from accounts.models import Family
 
 
-class Ingredients(models.Model):
+class Ingredient(models.Model):
     name: CharField = models.CharField(max_length=42)
     category: CharField = models.CharField(max_length=42)
     created_at: DateTimeField = models.DateTimeField(auto_now_add=True)
@@ -16,9 +16,9 @@ class Ingredients(models.Model):
         return self.name
 
 
-class GroceriesList(models.Model):
-    ingredients: ForeignKey[Ingredients] = models.ForeignKey(
-        to=Ingredients, on_delete=models.CASCADE
+class Grocery(models.Model):
+    ingredients: ForeignKey[Ingredient] = models.ForeignKey(
+        to=Ingredient, on_delete=models.CASCADE
     )
     family: ForeignKey[Family] = models.ForeignKey(to=Family, on_delete=models.CASCADE)
     created_at: DateTimeField = models.DateTimeField(auto_now_add=True)
