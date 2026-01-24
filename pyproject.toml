@@ -6,9 +6,11 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "django>=6.0.1",
+    "djangorestframework>=3.16.1",
 ]
 
 [dependency-groups]
 dev = [
     "ruff>=0.14.13",
+    "django-types>=0.22.0",
 ]
