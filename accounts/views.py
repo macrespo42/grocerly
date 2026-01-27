@@ -1,16 +1,22 @@
-from django.http import HttpResponse
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-
-def index(request):
-    return HttpResponse("Hello world. You are at the account index")
+from .serializers import RegisterSerializer
 
 
-class ProtectedHello(APIView):
-    permission_classes = (IsAuthenticated,)
+class Register(APIView):
+    def post(self, request):
+        data = JSONParser().parse(request)
+        serializer = RegisterSerializer(data=data)
 
-    def get(self, request):
-        content = {"message": "Hello from authenticated grocerly"}
-        return Response(content)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {
+                    "message": "Created",
+                },
+                status=status.HTTP_201_CREATED,
+            )
+        return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
