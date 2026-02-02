@@ -17,7 +17,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
+
+from groceries.views import IngredientViewSet
+
+router = routers.SimpleRouter()
+
+router.register("category", IngredientViewSet, basename="category")
 
 urlpatterns = [
     path(
@@ -26,6 +33,7 @@ urlpatterns = [
     path(
         "api/token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
     ),
+    path("api/", include(router.urls)),
     path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),
 ]
