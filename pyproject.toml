@@ -14,4 +14,5 @@ dependencies = [
 dev = [
     "ruff>=0.14.13",
     "django-types>=0.22.0",
+    "django-extensions>=4.1",
 ]

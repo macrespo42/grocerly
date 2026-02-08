@@ -24,7 +24,8 @@ from groceries.views import IngredientViewSet
 
 router = routers.SimpleRouter()
 
-router.register("category", IngredientViewSet, basename="category")
+router.register("ingredient", IngredientViewSet, basename="ingredient")
+# router.register("category", , basename="category")
 
 urlpatterns = [
     path(
@@ -35,5 +36,6 @@ urlpatterns = [
     ),
     path("api/", include(router.urls)),
     path("accounts/", include("accounts.urls")),
+    path("api/", include("groceries.urls")),
     path("admin/", admin.site.urls),
 ]
