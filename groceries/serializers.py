@@ -12,4 +12,5 @@ class IngredientSerializer(ModelSerializer):
 class GrocerySerializer(ModelSerializer):
     class Meta:
         model = Grocery
-        fields = ["id", "ingredents", "family"]
+        fields = ["id", "ingredients", "family"]
+        read_only_fields = ["family"]

@@ -20,16 +20,18 @@ class GroceryView(APIView):
 
     def get(self, request, format=None):
         user = request.user
-        groceries = Grocery.objects.filter(family=user.id)
+        if user.family is None:
+            return Response({"detail": "User does not belong to a family."}, status=status.HTTP_400_BAD_REQUEST)
+        groceries = Grocery.objects.filter(family=user.family)
         serializer = GrocerySerializer(groceries, many=True)
-
-        return Response(
-            serializer.data,
-        )
+        return Response(serializer.data)
 
     def post(self, request, format=None):
+        user = request.user
+        if user.family is None:
+            return Response({"detail": "User does not belong to a family."}, status=status.HTTP_400_BAD_REQUEST)
         serializer = GrocerySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            serializer.save(family=user.family)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
